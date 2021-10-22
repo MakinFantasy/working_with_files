@@ -21,4 +21,27 @@ def task_1_cookbook():
         return result
 
 
+def get_shop_list_by_dishes(dishes, person_count):
+    res = {}
+    q = {}
+    for dish in  dishes:
+        if dish in q.keys():
+            q[dish] += 1
+        else:
+            q[dish] = 1
+    for dish_name, value in q.items():
+        for ingredient_dict in cook_book[dish_name]:
+            if not (ingredient_dict["ingredient_name"] in res.keys()):
+                temp_dict = {
+                        "measure": ingredient_dict["measure"],
+                        "quantity": ingredient_dict["quantity"] * value * person_count
+                    }
+                res[ingredient_dict["ingredient_name"]] = temp_dict
+            else:
+                res[ingredient_dict["ingredient_name"]]["quantity"] += ingredient_dict["quantity"] \
+                                                                       * value \
+                                                                       * person_count
+    return res
+
+
 
